@@ -14,22 +14,27 @@
 
 import http from 'k6/http';
 import { sleep } from 'k6';
+import { Counter } from 'k6/metrics';
 
 const SERVICE_ENDPOINT="https://shakesapp-loiwv2t7ea-de.a.run.app"
 const words = ["hello", "love", "life", "people", "cloud", "sun", "rainbow", "beauty"]
 
+const wordCounter = new Counter("word_counter");
+
 export const options = {
     vus: 10,
-    duration: '600s',
+    duration: '60s',
+    noConnectionReuse: true,
 }
 
 export default function () {
-    url = genRequestURL()
+    const [word, url] = genRequestURL()
+    wordCounter.add(1, {word: word});
     http.get(url);
     sleep(5);
 }
 
 const genRequestURL = () => {
     const word = words[Math.floor(Math.random() * words.length)];
-    return SERVICE_ENDPOINT + `?q=${word}`;
+    return [word, SERVICE_ENDPOINT + `?q=${word}`];
 }
