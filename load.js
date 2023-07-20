@@ -30,6 +30,6 @@ export default function () {
 }
 
 const genRequestURL = () => {
-    word = words[Math.floor(Math.random() * words.length)];
-    return SERVICE_ENDPOINT + `?q=${param}`;
+    const word = words[Math.floor(Math.random() * words.length)];
+    return SERVICE_ENDPOINT + `?q=${word}`;
 }
