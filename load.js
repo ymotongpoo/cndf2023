@@ -16,13 +16,20 @@ import http from 'k6/http';
 import { sleep } from 'k6';
 
 const SERVICE_ENDPOINT="https://shakesapp-loiwv2t7ea-de.a.run.app"
+const words = ["hello", "love", "life", "people", "cloud", "sun", "rainbow", "beauty"]
 
 export const options = {
     vus: 10,
-    duration: '300s',
+    duration: '600s',
 }
 
 export default function () {
-    http.get(SERVICE_ENDPOINT);
-    sleep(10);
+    url = genRequestURL()
+    http.get(url);
+    sleep(5);
+}
+
+const genRequestURL = () => {
+    word = words[Math.floor(Math.random() * words.length)];
+    return SERVICE_ENDPOINT + `?q=${param}`;
 }

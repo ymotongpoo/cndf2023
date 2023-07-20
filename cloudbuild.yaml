@@ -17,4 +17,4 @@ steps:
     script: |
       k6 run load.js
 
-timeout: 600s
+timeout: 1000s
